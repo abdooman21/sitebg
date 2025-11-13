@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
-from blog.config import ProductionCfg, DevelopmentCfg
+from webapp.config import ProductionCfg, DevelopmentCfg
 
 """Enable for Development mode"""
 cfg = DevelopmentCfg
@@ -15,7 +15,7 @@ def create_app():
     with app.app_context():
         bcrypt.init_app(app)
         
-        from site.routes.MainRouter import MainRouter
+        from webapp.routes.MainRouter import MainRouter
         app.register_blueprint(MainRouter)
     # الموجهات وصفحات الخطأ #
     return app
