@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from db.DB import DB
 load_dotenv()
 
 class Config:
@@ -14,6 +15,11 @@ class DevelopmentCfg(Config):
     CONTROLLERS_DIR = APP_DIR / "controller"
     STATIC_DIR = APP_DIR / "static"
     IMAGES_DIR = STATIC_DIR / "images"
+
+    @classmethod
+    def init_app(cls):
+        print("setting things up")
+        DB.set_up(os.getenv("DB_URL"))
 
 class ProductionCfg(Config):
     pass

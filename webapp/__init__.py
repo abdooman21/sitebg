@@ -16,6 +16,10 @@ def create_app():
         bcrypt.init_app(app)
         
         from webapp.routes.MainRouter import MainRouter
+        from webapp.routes.ArticleRoute import ArticleRoute
+        cfg.init_app
+        
         app.register_blueprint(MainRouter)
+        app.register_blueprint(ArticleRoute)
     # الموجهات وصفحات الخطأ #
     return app
