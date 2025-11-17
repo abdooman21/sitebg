@@ -15,11 +15,11 @@ class DevelopmentCfg(Config):
     CONTROLLERS_DIR = APP_DIR / "controller"
     STATIC_DIR = APP_DIR / "static"
     IMAGES_DIR = STATIC_DIR / "images"
-
-    @classmethod
-    def init_app(cls):
-        print("setting things up")
-        DB.set_up(os.getenv("DB_URL"))
+    # vars
+    DB_URL = os.environ.get("DB_URL")
+    SU_NAME = os.environ.get("SU_NAME")
+    SU_EMAIL = os.environ.get("SU_EMAIL")
+    SU_PASS = os.environ.get("SU_PASS")
 
 class ProductionCfg(Config):
     pass

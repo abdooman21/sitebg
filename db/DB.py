@@ -76,6 +76,7 @@ class DB():
         conn.commit()
         conn.close()
 
+        # #### TODO 1 _____ add try catch 
     def add_user(username, email, password, is_admin=False):
         conn = DB.get_db()
         cur = conn.cursor()
