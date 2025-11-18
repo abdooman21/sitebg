@@ -4,7 +4,8 @@ class DB():
     dbUrl = None
     @classmethod
     def set_up(cls, url):
-        cls.dbUrl = url    # update static variable
+        cls.dbUrl = url 
+        cls.create_tables()   # update static variable
 
     @classmethod
     def get_db(cls):
@@ -12,6 +13,27 @@ class DB():
             raise ValueError("DB not configured. Call DB.set_up(url) first.")
         return sqlite3.connect(cls.dbUrl)
     
+    @classmethod
+    def get_user(cls, user_id):
+        """
+        Get user by ID
+        Returns: tuple (id, join_date, username, email, password, is_admin) or None
+        """
+        conn = cls.get_db()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT id, join_date, username, email, password, is_admin
+            FROM users
+            WHERE id = ?
+        """, (user_id,))
+        user_data = cur.fetchone()
+        conn.close()
+        
+        if user_data:
+            # Convert Row object to tuple
+            return tuple(user_data)
+        return None
+
     def create_tables():
         conn = DB.get_db()
         cur = conn.cursor()
@@ -77,17 +99,21 @@ class DB():
         conn.close()
 
         # #### TODO 1 _____ add try catch 
-    def add_user(username, email, password, is_admin=False):
-        conn = DB.get_db()
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO users (username, email, password, is_admin)
-            VALUES (?, ?, ?, ?)
-        """, (username, email, password, is_admin))
-        conn.commit()
+    @classmethod
+    def add_user(cls,username, email, password, is_admin=False):
+        try:
+            conn = DB.get_db() 
+            cur = conn.cursor() 
+            cur.execute("""
+                INSERT INTO users (username, email, password, is_admin)
+                VALUES (?, ?, ?, ?)
+            """, (username, email, password, is_admin))
+            conn.commit()
+        except Exception as ex:
+            print(ex) 
         conn.close()
-        
-    def add_article(title, content, user_id, article_img="default.png"):
+    @classmethod
+    def add_article(cls,title, content, user_id, article_img="default.png"):
         conn = DB.get_db()
         cur = conn.cursor()
         cur.execute("""
@@ -96,8 +122,8 @@ class DB():
         """, (title, content, article_img, user_id))
         conn.commit()
         conn.close()
-
-    def like_article(user_id, article_id):
+    @classmethod
+    def like_article(cls, user_id, article_id):
         conn = DB.get_db()
         cur = conn.cursor()
         cur.execute("""
@@ -106,8 +132,9 @@ class DB():
         """, (user_id, article_id))
         conn.commit()
         conn.close()
-
-    def add_stripe_customer(user_id, subscription_type, status):
+        
+    @classmethod
+    def add_stripe_customer(cls, user_id, subscription_type, status):
         conn = DB.get_db()
         cur = conn.cursor()
         cur.execute("""
@@ -116,3 +143,18 @@ class DB():
         """, (user_id, subscription_type, status))
         conn.commit()
         conn.close()
+
+
+
+# def get_user(user_id):
+#     conn = DB.get_db()
+#     cur = conn.cursor()
+#     cur.execute("""
+#         SELECT username, email, password, is_admin
+#         FROM users
+#         WHERE id = ?
+#     """, (user_id,)) # Notice the comma for a single-element tuple
+
+#     user_data = cur.fetchone() # Use fetchone() for a single row
+#     conn.close()
+#     return user_data

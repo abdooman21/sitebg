@@ -20,6 +20,9 @@ class DevelopmentCfg(Config):
     SU_NAME = os.environ.get("SU_NAME")
     SU_EMAIL = os.environ.get("SU_EMAIL")
     SU_PASS = os.environ.get("SU_PASS")
-
+    LOGIN_MSG =  "You should be logged in first"
+    
+    SECRET_KEY = os.environ.get("SECRET_KEY") or "a_very_secret_and_random_dev_key_that_is_long_and_complex_12345"
+    
 class ProductionCfg(Config):
     pass
