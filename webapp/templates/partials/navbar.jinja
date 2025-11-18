@@ -1,20 +1,39 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('main.home') }}">مدونتي</a>
+        <a class="navbar-brand" href="{{ url_for('main_controller.home') }}">مدونتي</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ 'active' if page == 'home' }}" href="{{ url_for('main.home') }}">الرئيسية</a>
+                    <a class="nav-link {% if page == 'home' %}active{% endif %}" href="{{ url_for('main_controller.home') }}">الرئيسية</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ 'active' if page == 'about' }}" href="{{ url_for('main.about') }}">من نحن</a>
+                    <a class="nav-link {% if page == 'about' %}active{% endif %}" href="{{ url_for('main_controller.about') }}">من نحن</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ 'active' if page == 'contact' }}" href="{{ url_for('main.contact') }}">اتصل بنا</a>
+                    <a class="nav-link {% if page == 'contact' %}active{% endif %}" href="{{ url_for('main_controller.contact') }}">اتصل بنا</a>
                 </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user"></i> {{ current_user.username }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth_controller.user_logout') }}">تسجيل الخروج</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth_controller.user_login') }}">تسجيل الدخول</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth_controller.user_register') }}">إنشاء حساب</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

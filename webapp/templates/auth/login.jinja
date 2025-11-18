@@ -1,30 +1,36 @@
 {% extends "main/base.jinja" %}
 {% from "partials/_macros.jinja" import form_macro %}
-
 {% block content %}
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="content-section shadow-lg p-3 mb-4 bg-body rounded m-4 col-md-6">
-            <form method="post">
+            <form method="POST" action="{{ url_for('auth_controller.user_login') }}">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">
-                        log in 
+                        تسجيل الدخول
                     </legend>
-                    {{ form_macro(form.username) }}
+                    {# Email or username field #}
                     {{ form_macro(form.email) }}
                     {{ form_macro(form.password) }}
                     
+                    {# Remember me checkbox if it exists #}
+                    {% if form.remember %}
+                    <div class="form-check">
+                        {{ form.remember(class="form-check-input") }}
+                        {{ form.remember.label(class="form-check-label") }}
+                    </div>
+                    {% endif %}
                 </fieldset>
-                <div class="form-group">
+                <div class="form-group d-grid gap-2">
                     {{ form.submit(class="btn mainButton") }}
                 </div>
             </form>
         </div>
     </div>
-    <div class="border-top pt-3 border-top pt-3 col-md-6">
+    <div class="border-top pt-3 text-center">
         <small class="text-muted">
-            <a class="ml-2" herf="{{ url_for('auth_controller.user_login') }}"> login  do you have an account ? </a> 
+            ليس لديك حساب؟ <a class="ml-2" href="{{ url_for('auth_controller.user_register') }}">انشاء حساب جديد</a>
         </small>
     </div>
 </div>

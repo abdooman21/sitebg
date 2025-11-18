@@ -1,7 +1,7 @@
 from flask import Blueprint
 from webapp.controller.MainController import MainController
 
-MainRouter = Blueprint("main", __name__)
+MainRouter = Blueprint("main_controller", __name__)
 
 
 

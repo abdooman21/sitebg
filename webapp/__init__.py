@@ -23,7 +23,9 @@ def setup(app):
 
     DB.set_up(cfg.DB_URL)
     # setup SU
-    DB.add_user(cfg.SU_NAME,cfg.SU_EMAIL,cfg.SU_PASS,True)
+    hashed = bcrypt.generate_password_hash(cfg.SU_PASS).decode('utf-8')
+
+    DB.add_user(cfg.SU_NAME,cfg.SU_EMAIL,hashed,True)
 
 
 def create_app():

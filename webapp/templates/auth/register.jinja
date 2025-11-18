@@ -9,22 +9,25 @@
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">
-                        انشاء حساب جديد
+                        تسجيل الدخول
                     </legend>
-                    {{ form_macro(form.username) }}
+                    {# This field is used for either email or username input based on your controller logic #}
                     {{ form_macro(form.email) }}
                     {{ form_macro(form.password) }}
-                    {{ form_macro(form.confirmpass) }} {# Assuming your RegisterForm has 'confirmpass' #}
+
+                    {# Removed the 'Remember Me' checkbox block #}
+
                 </fieldset>
-                <div class="form-group">
+                <div class="form-group d-grid gap-2">
                     {{ form.submit(class="btn mainButton") }}
+                    <a class="btn btn-link text-secondary" href="{{ url_for('auth_controller.reset_request') }}">نسيت كلمة السر؟</a>
                 </div>
             </form>
         </div>
     </div>
-    <div class="border-top pt-3 border-top pt-3 col-md-6">
+    <div class="border-top pt-3 col-md-6">
         <small class="text-muted">
-            لديك حساب؟ <a class="ml-2" href="{{ url_for('auth_controller.user_login') }}">تسجيل الدخول</a>
+            ليس لديك حساب؟ <a class="ml-2" href="{{ url_for('auth_controller.user_register') }}">انشاء حساب جديد</a>
         </small>
     </div>
 </div>
